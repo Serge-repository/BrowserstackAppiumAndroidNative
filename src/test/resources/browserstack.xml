@@ -2,6 +2,7 @@
 
 <suite name="MobileSuite" verbose="1">
     <test name="Regression">
+        <parameter name="device" value="1" />
         <classes>
             <class name="appium_tests.DirectGetViaAppActivitiesTest"/>
         </classes>
