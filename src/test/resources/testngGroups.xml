@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+<test name="Guru 99 Smoke Test Demo" thread-count="4" parallel="methods">
+    <groups>
+        <run>
+            <include name="smoke" />
+        </run>
+    </groups>
+    <classes>
+        <class name="appium_tests.DemoApkTests" />
+    </classes>
+</test>
+</suite>
