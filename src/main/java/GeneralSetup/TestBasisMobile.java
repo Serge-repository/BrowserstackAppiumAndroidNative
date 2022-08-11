@@ -37,6 +37,10 @@ public class TestBasisMobile {
     public static String appPackage = "io.appium.android.apis";
     public static String appPath;
 
+    ///////////// uncomment for local single device run //////////////////////
+//    @BeforeClass(alwaysRun = true)
+//    public void beforeClassSingleDeviceRun() throws IOException {
+
     ///////////// uncomment for parallel device run via xml suite //////////////////////
     @Parameters({"device"})
     @BeforeClass(alwaysRun = true)
