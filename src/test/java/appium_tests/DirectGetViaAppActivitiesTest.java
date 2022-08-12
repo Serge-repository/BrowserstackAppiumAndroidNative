@@ -1,6 +1,9 @@
 package appium_tests;
 
+import GeneralSetup.AppActivities;
 import GeneralSetup.TestBasisMobile;
+import io.appium.java_client.android.Activity;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -8,11 +11,7 @@ import org.testng.annotations.Test;
 public class DirectGetViaAppActivitiesTest extends TestBasisMobile {
     @BeforeMethod
     public void beforeMethod(){
-        homeView.selectViewsOption();
-        viewsView.getTouchAction().scrollAction(448, 1752, 551, 389);
-        viewsView.getTouchAction().scrollAction(448, 1752, 551, 389);
-        viewsView.getTouchAction().scrollAction(448, 1752, 551, 389);
-        viewsView.selectTextFieldsOption();
+        ((AndroidDriver) appiumDriver).startActivity(new Activity(appPackage, AppActivities.TEXT_FIELDS_VIEW.getActivityPath()));
     }
 
     @Test

@@ -4,7 +4,7 @@
     <test name="Regression">
         <parameter name="device" value="1" />
         <classes>
-            <class name="appium_tests.DirectGetViaAppActivitiesTest"/>
+            <class name="appium_tests.ViewsTest"/>
         </classes>
     </test>
 </suite>

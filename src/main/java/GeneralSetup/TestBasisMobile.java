@@ -9,7 +9,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
 import views.HomeView;
 import views.TextFieldsView;
 import views.ViewsView;
@@ -38,22 +37,22 @@ public class TestBasisMobile {
     public static String appPath;
 
     ///////////// uncomment for local single device run //////////////////////
-//    @BeforeClass(alwaysRun = true)
-//    public void beforeClassSingleDeviceRun() throws IOException {
+    @BeforeClass(alwaysRun = true)
+    public void beforeClassSingleDeviceRun() throws IOException {
 
     ///////////// uncomment for parallel device run via xml suite //////////////////////
-    @Parameters({"device"})
-    @BeforeClass(alwaysRun = true)
-    public void beforeClassSingleDeviceRun(String device) throws IOException {
+//    @Parameters({"device"})
+//    @BeforeClass(alwaysRun = true)
+//    public void beforeClassSingleDeviceRun(String device) throws IOException {
 
         String userName = "serge668";
         String accessKey = "zCccBbpq5GdkHEce9TQx";
 
         ///////////// uncomment for parallel device run via xml suite ///////////////////
-        String deviceNumber = System.getProperty("device", device);
+//        String deviceNumber = System.getProperty("device", device);
 
         ///////////// uncomment for local single device run //////////////////////
-//        String deviceNumber = System.getProperty("device", "1");
+        String deviceNumber = System.getProperty("device", "1");
 
         InputStream stream = TestBasisMobile.class.getResourceAsStream("/Devices.json");
         if (stream == null) {
