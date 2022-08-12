@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
+import utils.PropertiesLoader;
 import views.HomeView;
 import views.TextFieldsView;
 import views.ViewsView;
@@ -46,8 +47,16 @@ public class TestBasisMobile {
     @BeforeClass(alwaysRun = true)
     public void beforeClassSingleDeviceRun(String device) throws IOException {
 
-        String userName = "serge668";
-        String accessKey = "zCccBbpq5GdkHEce9TQx";
+        String userName = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "userName");
+        String accessKey = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "accessKey");
+
+        // For Browserstack + Jenkins integration
+//        String userName = System.getenv("BROWSERSTACK_USERNAME");
+//        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
+//        String browserstackLocal = System.getenv("BROWSERSTACK_LOCAL");
+//        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
+//        String browserstackLocalIdentifier = System.getenv("BROWSERSTACK_LOCAL_IDENTIFIER");
+//        String app = System.getenv("BROWSERSTACK_APP_ID");
 
         ///////////// uncomment for parallel device run via xml suite ///////////////////
         String deviceNumber = System.getProperty("device", device);
