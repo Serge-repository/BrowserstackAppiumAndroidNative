@@ -43,7 +43,7 @@ public class TestBasisMobile {
 
     ///////////// uncomment for parallel device run via xml suite //////////////////////
     @Parameters({"device"})
-    @BeforeClass(alwaysRun = true)   //use BeforeMethod for parallel methods run via xml suite (parallel_methods.xml)
+    @BeforeClass(alwaysRun = true)
     public void beforeClassSingleDeviceRun(String device) throws IOException {
 
         String userName = "serge668";
