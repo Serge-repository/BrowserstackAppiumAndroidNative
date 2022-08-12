@@ -9,8 +9,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
-import utils.PropertiesLoader;
 import views.HomeView;
 import views.TextFieldsView;
 import views.ViewsView;
@@ -39,30 +37,29 @@ public class TestBasisMobile {
     public static String appPath;
 
     ///////////// uncomment for local single device run //////////////////////
-//    @BeforeClass(alwaysRun = true)
-//    public void beforeClassSingleDeviceRun() throws IOException {
+    @BeforeClass(alwaysRun = true)
+    public void beforeClassSingleDeviceRun() throws IOException {
 
     ///////////// uncomment for parallel device run via xml suite //////////////////////
-    @Parameters({"device"})
-    @BeforeClass(alwaysRun = true)
-    public void beforeClassSingleDeviceRun(String device) throws IOException {
+//    @Parameters({"device"})
+//    @BeforeClass(alwaysRun = true)
+//    public void beforeClassSingleDeviceRun(String device) throws IOException {
 
-        String userName = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "userName");
-        String accessKey = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "accessKey");
+        // for use of Browserstack without Jenkins
+//        String userName = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "userName");
+//        String accessKey = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "accessKey");
 
         // For Browserstack + Jenkins integration
-//        String userName = System.getenv("BROWSERSTACK_USERNAME");
-//        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
-//        String browserstackLocal = System.getenv("BROWSERSTACK_LOCAL");
-//        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
-//        String browserstackLocalIdentifier = System.getenv("BROWSERSTACK_LOCAL_IDENTIFIER");
-//        String app = System.getenv("BROWSERSTACK_APP_ID");
+        String userName = System.getenv("BROWSERSTACK_USERNAME");
+        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
+        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
+        String app = System.getenv("BROWSERSTACK_APP_ID");
 
         ///////////// uncomment for parallel device run via xml suite ///////////////////
-        String deviceNumber = System.getProperty("device", device);
+//        String deviceNumber = System.getProperty("device", device);
 
         ///////////// uncomment for local single device run //////////////////////
-//        String deviceNumber = System.getProperty("device", "1");
+        String deviceNumber = System.getProperty("device", "1");
 
         InputStream stream = TestBasisMobile.class.getResourceAsStream("/Devices.json");
         if (stream == null) {
@@ -75,12 +72,18 @@ public class TestBasisMobile {
         capabilities.setCapability("device", deviceSettings.get("device"));
         capabilities.setCapability("os_version", deviceSettings.get("os_version"));
         capabilities.setCapability("project", "Browserstack Project");
-        capabilities.setCapability("build", "First Build");
-        capabilities.setCapability("name", "Bstack-[Java] Sample Test");
+
+        // for use of Browserstack without Jenkins
+//        capabilities.setCapability("build", "First Build");
+//        capabilities.setCapability("name", "Bstack-[Java] Sample Test");
+
+        // for use of Browserstack with Jenkins
+        capabilities.setCapability("build", buildName);
+        capabilities.setCapability("name", app);
+
         capabilities.setCapability("app", deviceSettings.get("app_url"));
         capabilities.setCapability("newCommandTimeout", 300);
         serverAddress = new URL("https://" + userName + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub");
-
         initializeDriver();
     }
 
