@@ -2,13 +2,17 @@ package GeneralSetup;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import org.json.JSONObject;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import utils.HttpHelper;
+import utils.PropertiesLoader;
 import views.HomeView;
 import views.TextFieldsView;
 import views.ViewsView;
@@ -28,6 +32,8 @@ public class TestBasisMobile {
     private DesiredCapabilities capabilities = new DesiredCapabilities();
     private Map<String, String> deviceSettings;
     private URL serverAddress;
+    private String deviceNumber;
+    private Map<String, Map<String, String>> deviceMaps;
 
     public HomeView homeView;
     public ViewsView viewsView;
@@ -38,50 +44,40 @@ public class TestBasisMobile {
 
     ///////////// uncomment for local single device run //////////////////////
     @BeforeClass(alwaysRun = true)
-    public void beforeClassSingleDeviceRun() throws IOException {
+    public void beforeClassSingleDeviceRun() throws IOException, UnirestException {
 
     ///////////// uncomment for parallel device run via xml suite //////////////////////
 //    @Parameters({"device"})
 //    @BeforeClass(alwaysRun = true)
 //    public void beforeClassSingleDeviceRun(String device) throws IOException {
 
-        // for use of Browserstack without Jenkins
-//        String userName = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "userName");
-//        String accessKey = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "accessKey");
+        String userName = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "userName");
+        String accessKey = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "accessKey");
 
-        // For Browserstack + Jenkins integration
-        String userName = System.getenv("BROWSERSTACK_USERNAME");
-        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
-        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
-        String app = System.getenv("BROWSERSTACK_APP_ID");
+        // For raw Browserstack + Jenkins integration
+//        String userName = System.getenv("BROWSERSTACK_USERNAME");
+//        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
+//        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
+//        String app = System.getenv("BROWSERSTACK_APP_ID");
+
+        // выбор .apk или .ipa файла (можно реализовать через switch)
+        JSONObject appUrl = new JSONObject(HttpHelper.uploadApp("/C:/Java/Projects/AppiumProjects/BrowserstackAppiumAndroidNative/src/main/resources/ApiDemos-debug.apk"));
 
         ///////////// uncomment for parallel device run via xml suite ///////////////////
-//        String deviceNumber = System.getProperty("device", device);
+//        deviceNumber = System.getProperty("device", device);
 
         ///////////// uncomment for local single device run //////////////////////
-        String deviceNumber = System.getProperty("device", "1");
+        deviceNumber = System.getProperty("device", "1");
 
-        InputStream stream = TestBasisMobile.class.getResourceAsStream("/Devices.json");
-        if (stream == null) {
-            throw new RuntimeException("Could not find Devices.json");
-        }
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        Map<String, Map<String, String>> deviceMaps = new ObjectMapper().enable(JsonParser.Feature.ALLOW_COMMENTS).readValue(reader, HashMap.class);
+        initDeviceMaps();
         deviceSettings = deviceMaps.get(deviceNumber);
 
         capabilities.setCapability("device", deviceSettings.get("device"));
         capabilities.setCapability("os_version", deviceSettings.get("os_version"));
         capabilities.setCapability("project", "Browserstack Project");
-
-        // for use of Browserstack without Jenkins
-//        capabilities.setCapability("build", "First Build");
-//        capabilities.setCapability("name", "Bstack-[Java] Sample Test");
-
-        // for use of Browserstack with Jenkins
-        capabilities.setCapability("build", buildName);
-        capabilities.setCapability("name", app);
-
-        capabilities.setCapability("app", deviceSettings.get("app_url"));
+        capabilities.setCapability("build", "First build");
+        capabilities.setCapability("name", "Bstack-[Java] Sample Test");
+        capabilities.setCapability("app", appUrl.getString("app_url"));
         capabilities.setCapability("newCommandTimeout", 300);
         serverAddress = new URL("https://" + userName + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub");
         initializeDriver();
@@ -102,5 +98,15 @@ public class TestBasisMobile {
         homeView = new HomeView(appiumDriver, wait);
         viewsView = new ViewsView(appiumDriver, wait);
         textFieldsView = new TextFieldsView(appiumDriver, wait);
+    }
+
+    private void initDeviceMaps() throws IOException {
+        InputStream stream = TestBasisMobile.class.getResourceAsStream("/Devices.json");
+        if (stream == null) {
+            throw new RuntimeException("Could not find Devices.json");
+        }
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        deviceMaps = new ObjectMapper().enable(JsonParser.Feature.ALLOW_COMMENTS).readValue(reader, HashMap.class);
+        stream.close();
     }
 }
