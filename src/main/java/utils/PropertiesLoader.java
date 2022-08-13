@@ -1,22 +1,24 @@
 package utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.util.Base64;
 
 public class PropertiesLoader {
-    private static final Properties properties = new Properties();
 
-    private static Properties getProperties(String filepath) throws IOException {
-        File file = new File(filepath);
-        FileInputStream fileInputStream = new FileInputStream(file);
-        properties.load(fileInputStream);
-        fileInputStream.close();
-        return properties;
-    }
+    private static String userName="c2VyZ2U2Njg=";
+    private static String accessKey="ekNjY0JicHE1R2RrSEVjZTlUUXg=";
+    private static byte[] decodedBytes;
 
-    public static String getCredentials(String filepath, String propertyName) throws IOException {
-        return getProperties(filepath).getProperty(propertyName);
+//    public static void encodeString() {
+//        String decodedString = Base64.getEncoder().encodeToString(userName.getBytes());
+//        System.out.println(decodedString);
+//    }
+
+    public static String decodeString(boolean ifUserName) {
+        if (ifUserName){
+            decodedBytes = Base64.getDecoder().decode(userName);
+        } else {
+            decodedBytes = Base64.getDecoder().decode(accessKey);
+        }
+        return new String(decodedBytes);
     }
 }

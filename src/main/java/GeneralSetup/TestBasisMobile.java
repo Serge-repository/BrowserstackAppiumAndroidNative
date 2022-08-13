@@ -51,8 +51,8 @@ public class TestBasisMobile {
 //    @BeforeClass(alwaysRun = true)
 //    public void beforeClassSingleDeviceRun(String device) throws IOException {
 
-        String userName = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "userName");
-        String accessKey = PropertiesLoader.getCredentials("src/main/resources/credentials.properties", "accessKey");
+        String userName = PropertiesLoader.decodeString(true);
+        String accessKey = PropertiesLoader.decodeString(false);
 
         // For raw Browserstack + Jenkins integration
 //        String userName = System.getenv("BROWSERSTACK_USERNAME");
