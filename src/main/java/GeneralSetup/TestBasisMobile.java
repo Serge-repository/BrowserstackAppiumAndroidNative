@@ -59,17 +59,12 @@ public class TestBasisMobile {
 
         ///////////// uncomment for parallel device run via xml suite ///////////////////
 //        deviceNumber = System.getProperty("device", device);
+
         ///////////// uncomment for local single device run //////////////////////
         deviceNumber = System.getProperty("device", "1");
 
         initDeviceMaps();
         deviceSettings = deviceMaps.get(deviceNumber);
-
-        // For raw Browserstack + Jenkins integration
-//        String userName = System.getenv("BROWSERSTACK_USERNAME");
-//        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
-//        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
-//        String app = System.getenv("BROWSERSTACK_APP_ID");
 
         capabilities.setCapability("device", deviceSettings.get("device"));
         capabilities.setCapability("os_version", deviceSettings.get("os_version"));
