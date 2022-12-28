@@ -61,7 +61,7 @@ public class TestBasisMobile {
 //        deviceNumber = System.getProperty("device", device);
 
         ///////////// uncomment for local single device run //////////////////////
-        deviceNumber = System.getProperty("device", "1");
+        deviceNumber = System.getProperty("device", "android_Pixel3_remote");
 
         initDeviceMaps();
         deviceSettings = deviceMaps.get(deviceNumber);

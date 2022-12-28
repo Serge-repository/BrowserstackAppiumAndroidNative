@@ -1,6 +1,10 @@
 {
-  "1": {
+  "android_Pixel3_remote": {
     "device": "Google Pixel 3",
     "os_version": "9.0"
+  },
+  "ios_iPhoneXS_remote": {
+    "device": "",
+    "os_version": ""
   }
 }
