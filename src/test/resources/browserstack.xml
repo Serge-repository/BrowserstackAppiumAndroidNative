@@ -4,7 +4,7 @@
     <test name="Google Pixel 3" parallel="classes">
         <parameter name="device" value="1" />
         <classes>
-            <class name="appium_tests.ViewsTest"/>
+            <class name="android_tests.ViewsTest"/>
         </classes>
     </test>
 </suite>

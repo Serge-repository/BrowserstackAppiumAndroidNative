@@ -1,4 +1,4 @@
-package appium_tests;
+package android_tests;
 
 import GeneralSetup.AppActivities;
 import GeneralSetup.TestBasisMobile;
